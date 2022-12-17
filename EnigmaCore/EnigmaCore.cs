@@ -10,7 +10,14 @@ namespace EnigmaCore
 {
     public class Enigma
     {
-        public List<Rotor> Rotors { get; set; } = new List<Rotor>();
+        public List<Rotor> Rotors { get; set; }
+        public Reflector Reflector { get; set; }
+        public Plugboard Plugboard { get; set; }
+
+        public Enigma()
+        {
+            Rotors = new List<Rotor>();
+        }
 
 
 
@@ -93,11 +100,7 @@ namespace EnigmaCore
             NotchPosition = notchPosition;
         }
 
-        public class LetterPair
-        {
-            public char LeftLetter { get; set; }
-            public char RightLetter { get; set; }
-        }
+
 
         public bool IsVerified()
         {
@@ -106,23 +109,52 @@ namespace EnigmaCore
 
         public static class RotorLibrary
         {
-            public static Rotor RealRotorI = new Rotor("I", "EKMFLGDQVZNTOWYHXUSPAIBRCJ", 0, 0, 16);
-            public static Rotor RealRotorII = new Rotor("II", "AJDKSIRUXBLHWTMCQGZNPYFVOE", 0, 0, 4);
-            public static Rotor RealRotorIII = new Rotor("III", "BDFHJLCPRTXVZNYEIWGAKMUSQO", 0, 0, 21);
-            public static Rotor RealRotorIV = new Rotor("IV", "ESOVPZJAYQUIRHXLNFTGKDCMWB", 0, 0, 9);
-            public static Rotor RealRotorV = new Rotor("V", "VZBRGITYUPSDNHLXAWMJQOFECK", 0, 0, 25);
-            public static Rotor RealRotorVI = new Rotor("VI", "JPGVOUMFYQBENHZRDKASXLICTW", 0, 0, 12, 25);
-            public static Rotor RealRotorVII = new Rotor("VII", "NZJHGRCXMYSWBOUFAIVLPEKQDT", 0, 0, 12, 25);
-            public static Rotor RealRotorVIII = new Rotor("VIII", "FKQHTLXOCBJSPDZRAMEWNIUYGV", 0, 0, 12, 25);
+            public static readonly Rotor RotorI = new Rotor("I", "EKMFLGDQVZNTOWYHXUSPAIBRCJ", 0, 0, 16);
+            public static readonly Rotor RotorII = new Rotor("II", "AJDKSIRUXBLHWTMCQGZNPYFVOE", 0, 0, 4);
+            public static readonly Rotor RotorIII = new Rotor("III", "BDFHJLCPRTXVZNYEIWGAKMUSQO", 0, 0, 21);
+            public static readonly Rotor RotorIV = new Rotor("IV", "ESOVPZJAYQUIRHXLNFTGKDCMWB", 0, 0, 9);
+            public static readonly Rotor RotorV = new Rotor("V", "VZBRGITYUPSDNHLXAWMJQOFECK", 0, 0, 25);
+            public static readonly Rotor RotorVI = new Rotor("VI", "JPGVOUMFYQBENHZRDKASXLICTW", 0, 0, 12, 25);
+            public static readonly Rotor RotorVII = new Rotor("VII", "NZJHGRCXMYSWBOUFAIVLPEKQDT", 0, 0, 12, 25);
+            public static readonly Rotor RotorVIII = new Rotor("VIII", "FKQHTLXOCBJSPDZRAMEWNIUYGV", 0, 0, 12, 25);
         }
     }
 
     public class Reflector
     {
-        // 可以改变连线，也可以转
+        // 名称
+        public string Name { get; set; }
+        // 接线方式
+        public string Encode { get; set; }
+        // 反射器旋转位置
+        public int ReflectorPosition { get; set; }
+
+        public Reflector(string name="Default", string encode = "ZYXWVUTSRQPONMLKJIHGFEDCBA", int reflectorPosition=0)
+        {
+            Name = name;
+            Encode = encode;
+            ReflectorPosition = reflectorPosition;
+        }
+        public static class ReflectorLibrary
+        {
+            public static readonly Reflector ReflectorB = new Reflector("B", "YRUHQSLDPXNGOKMIEBFZCWVJAT", 0);
+            public static readonly Reflector ReflectorC = new Reflector("C", "FVPJIAOYEDRZXWGCTKUQSBNMHL", 0);
+        }
     }
 
-    public class Plugboard { }
+    public class Plugboard
+    {
+        public string[] Connections { get; set; }
+        public Plugboard(params string[] connections)
+        {
+            Connections = connections;
+        }
+        public static class PlugboardLibrary
+        {
+            public static readonly Plugboard PlugboardCross = new Plugboard("AZ", "BY", "CX", "DW", "EV", "FU", "GT", "HS", "IR", "JQ", "KP", "LO", "MM");
+            public static readonly Plugboard PlugboardShift = new Plugboard("AN", "BO", "CP", "DQ", "ER", "FS", "GT", "HU", "IV", "JW", "KX", "LY", "MZ");
+        }
+    }
     public class Lampboard { }
     public class Keyboard
     {
